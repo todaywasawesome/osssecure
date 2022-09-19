@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno-policies
+  namespace: argocd
+spec:
+  project: osssecure
+  source:
+    path: src/manifests/kyverno-policies/osssecure/
+    repoURL: https://github.com/todaywasawesome/osssecure/
+    targetRevision: HEAD
+  destination:
+    namespace: kyverno
+    server: https://kubernetes.default.svc
+  project: osssecure
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - Replace=false
+      - PruneLast=false
+      - Validate=false
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=false
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+  ignoreDifferences: # Kyverno mutates resources https://medium.com/@charled.breteche/using-kyverno-policies-with-argocd-1a600c1b249
+    - group: kyverno.io
+      kind: ClusterPolicy
+      jqPathExpressions:
+        - .spec.rules[] | select(.name|test("autogen-."))

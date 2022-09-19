@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+ - ./crds/filter.yaml
+ - ./crds/filterpolicy.yaml
+ - ./crds/getambassador.io_authservices.yaml
+ - ./crds/getambassador.io_consulresolvers.yaml
+ - ./crds/getambassador.io_devportals.yaml
+ - ./crds/getambassador.io_hosts.yaml
+ - ./crds/getambassador.io_kubernetesendpointresolvers.yaml
+ - ./crds/getambassador.io_kubernetesserviceresolvers.yaml
+ - ./crds/getambassador.io_logservices.yaml
+ - ./crds/getambassador.io_mappings.yaml
+ - ./crds/getambassador.io_modules.yaml
+ - ./crds/getambassador.io_ratelimitservices.yaml
+ - ./crds/getambassador.io_tcpmappings.yaml
+ - ./crds/getambassador.io_tlscontexts.yaml
+ - ./crds/getambassador.io_tracingservices.yaml
+ - ./crds/project.yaml
+ - ./crds/projectcontroller.yaml
+ - ./crds/projectrevision.yaml
+ - ./crds/ratelimit.yaml
+ - ./getambassador.yaml

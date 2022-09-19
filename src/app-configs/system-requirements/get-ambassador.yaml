@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ambassador
+  namespace: argocd
+spec:
+  project: osssecure
+  source:
+    path: src/manifests/ambassador/osssecure/
+    repoURL: https://github.com/todaywasawesome/osssecure/
+    targetRevision: HEAD
+  destination:
+    namespace: ambassador
+    server: https://kubernetes.default.svc
+  project: osssecure
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - Replace=false
+      - PruneLast=false
+      - Validate=false
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=false
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
