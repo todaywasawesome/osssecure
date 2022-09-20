@@ -63,4 +63,4 @@ spec:
     annotations:
       - key: argocd.argoproj.io/tracking-id
         # Matches annotation format
-        allowedRegex: [a-zA-Z0-9-]+:.+
+        allowedRegex: '[a-zA-Z0-9-]+:.+'
