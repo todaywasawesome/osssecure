@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: opa-gatekeeper
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: gatekeeper-system
