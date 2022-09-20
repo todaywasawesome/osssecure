@@ -52,6 +52,7 @@ kind: K8sRequiredAnnotations
 metadata:
   name: must-be-deployed-by-argocd
 spec:
+  enforcementAction: deny
   match:
     namespaces:
       - "secure"
