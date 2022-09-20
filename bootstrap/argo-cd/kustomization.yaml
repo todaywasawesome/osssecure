@@ -23,6 +23,7 @@ configMapGenerator:
       end
     end
     return hs
+  - application.resourceTrackingMethod=annotation
   name: argocd-cm
 kind: Kustomization
 namespace: argocd
