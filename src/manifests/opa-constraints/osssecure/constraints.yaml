@@ -45,20 +45,22 @@ spec:
       - apiGroups: ["apps"]
         kinds: ["Deployment"]
 ---
-# # Require applicaitons deploy with ArgoProj, ex demo-accept-app:/Service:secure/summer-k8s-service-canary
-# # To use this, set Argo CD tracking method to annotation or annotation+label. https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/
-# apiVersion: constraints.gatekeeper.sh/v1beta1
-# kind: K8sRequiredAnnotations
-# metadata:
-#   name: must-be-deployed-by-argocd
-# spec:
-#   match:
-#     kinds:
-#       - apiGroups: [""]
-#         kinds: ["Service", "Deployment", "Pod", "Rollout"]
-#   parameters:
-#     message: "All resources must have a `argocd.argoproj.io/tracking-id` annotation."
-#     annotations:
-#       - key: argocd.argoproj.io/tracking-id
-#         # Matches annotation format
-#         allowedRegex: [a-zA-Z0-9-]+:.+
+# Require applicaitons deploy with ArgoProj, ex demo-accept-app:/Service:secure/summer-k8s-service-canary
+# To use this, set Argo CD tracking method to annotation or annotation+label. https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredAnnotations
+metadata:
+  name: must-be-deployed-by-argocd
+spec:
+  match:
+    namespaces:
+      - "secure"
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Service", "Deployment", "Pod", "Rollout"]
+  parameters:
+    message: "All resources must have a `argocd.argoproj.io/tracking-id` annotation."
+    annotations:
+      - key: argocd.argoproj.io/tracking-id
+        # Matches annotation format
+        allowedRegex: [a-zA-Z0-9-]+:.+
