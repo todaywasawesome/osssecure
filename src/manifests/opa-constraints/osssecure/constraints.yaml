@@ -44,13 +44,37 @@ spec:
     kinds:
       - apiGroups: ["apps"]
         kinds: ["Deployment"]
---- 
-#For debugging
+# --- 
+# #For debugging
+# apiVersion: constraints.gatekeeper.sh/v1beta1
+# kind: K8sRequiredAnnotations
+# metadata:
+#   name: all-must-have-certain-set-of-annotations
+# spec:
+#   match:
+#     namespaces:
+#       - "secure"
+#     kinds:
+#       - apiGroups: [""]
+#         kinds: ["Service"]
+#   parameters:
+#     message: "All services must have a `a8r.io/owner` and `a8r.io/runbook` annotations."
+#     annotations:
+#       - key: a8r.io/owner
+#         # Matches email address or github user
+#         allowedRegex: ^([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}|[a-z]{1,39})$
+#       - key: a8r.io/runbook
+#         # Matches urls including or not http/https
+#         allowedRegex: ^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$
+---
+# Require applicaitons deploy with ArgoProj, ex demo-accept-app:/Service:secure/summer-k8s-service-canary
+# To use this, set Argo CD tracking method to annotation or annotation+label. https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sRequiredAnnotations
 metadata:
-  name: all-must-have-certain-set-of-annotations
+  name: must-be-deployed-by-argocd
 spec:
+  enforcementAction: deny
   match:
     namespaces:
       - "secure"
@@ -58,32 +82,8 @@ spec:
       - apiGroups: [""]
         kinds: ["Service"]
   parameters:
-    message: "All services must have a `a8r.io/owner` and `a8r.io/runbook` annotations."
+    message: "All resources must have a `argocd.argoproj.io/tracking-id` annotation."
     annotations:
-      - key: a8r.io/owner
-        # Matches email address or github user
-        allowedRegex: ^([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}|[a-z]{1,39})$
-      - key: a8r.io/runbook
-        # Matches urls including or not http/https
-        allowedRegex: ^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$
----
-# # Require applicaitons deploy with ArgoProj, ex demo-accept-app:/Service:secure/summer-k8s-service-canary
-# # To use this, set Argo CD tracking method to annotation or annotation+label. https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/
-# apiVersion: constraints.gatekeeper.sh/v1beta1
-# kind: K8sRequiredAnnotations
-# metadata:
-#   name: must-be-deployed-by-argocd
-# spec:
-#   enforcementAction: deny
-#   match:
-#     namespaces:
-#       - "secure"
-#     kinds:
-#       - apiGroups: [""]
-#         kinds: ["Service", "Deployment", "Pod", "Rollout"]
-#   parameters:
-#     message: "All resources must have a `argocd.argoproj.io/tracking-id` annotation."
-#     annotations:
-#       - key: argocd.argoproj.io/tracking-id
-#         # Matches annotation format
-#         allowedRegex: ^[a-zA-Z0-9-]+:.+$
+      - key: argocd.argoproj.io/tracking-id
+        # Matches annotation format
+        allowedRegex: ^[a-zA-Z0-9-]+:.+$
