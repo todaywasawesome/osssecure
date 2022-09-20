@@ -18,7 +18,7 @@ spec:
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sAllowedRepos
 metadata:
-  name: repo-is-openpolicyagent
+  name: repo-is-todaywasawesome
 spec:
   match:
     kinds:
