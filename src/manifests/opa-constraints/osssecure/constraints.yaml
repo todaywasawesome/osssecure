@@ -44,21 +44,3 @@ spec:
     kinds:
       - apiGroups: ["apps"]
         kinds: ["Deployment"]
----
-# Require resources to be deployed using Argo CD
-apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sRequiredLabels
-metadata:
-  name: must-be-argo
-spec:
-  match:
-    namespaces:
-      - "secure"
-    kinds:
-      - apiGroups: ["apps"]
-        kinds: ["Deployment"]
-  parameters:
-    message: "All resources must be managed by Argo CD or Argo Rollouts"
-    labels:
-      - key: app
-        allowedRegex: ".*\\S+.*"
