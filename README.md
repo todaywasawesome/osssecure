@@ -9,7 +9,7 @@ Thanks for joining my ArgoCon talk - [Secure by Default with GitOps - A Guide to
 **Relevant Links**
  - Argo CD Autopilot - [argocd-autopilot.readthedocs.io](https://argocd-autopilot.readthedocs.io/)    
 -   Codefresh Hub for Argo - [codefresh.io/argohub](https://codefresh.io/argohub)    
--   Cosign Workflow Template -
+-   Cosign Workflow Template - [codefresh.io/argohub/workflow-template/cosign](https://codefresh.io/argohub/workflow-template/cosign)
 -   SigStore Cosign - [github.com/sigstore/cosign](https://github.com/sigstore/cosign)    
 -   OPA Gatekeeper - [open-policy-agent.github.io/gatekeeper](https://open-policy-agent.github.io/gatekeeper/)    
 -   Kyverno - [kyverno.io](https://kyverno.io/)    
