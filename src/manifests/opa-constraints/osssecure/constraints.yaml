@@ -58,7 +58,7 @@ spec:
       - "secure"
     kinds:
       - apiGroups: [""]
-        kinds: ["Service","Pod"]
+        kinds: ["Pod"]
   parameters:
     message: "All resources must have a `argocd.argoproj.io/tracking-id` annotation."
     annotations:
