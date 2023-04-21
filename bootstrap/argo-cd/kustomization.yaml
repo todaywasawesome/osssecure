@@ -28,6 +28,6 @@ configMapGenerator:
 kind: Kustomization
 namespace: argocd
 resources:
-- github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.7
+- github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.15
 patches:
 - expose-service.yaml
