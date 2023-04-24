@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: argocd
 configMapGenerator:
 - name: argocd-cm
-  namespace: argocd
   behavior: merge
   # files:
   # - resource.customizations
@@ -31,9 +31,7 @@ configMapGenerator:
           end
         end
         return hs
-
 resources:
-- configmap.yaml
-# - github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.15
-# patches:
-# - expose-service.yaml
+- github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.15
+patches:
+- expose-service.yaml
