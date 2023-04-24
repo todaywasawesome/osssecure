@@ -1,8 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 configMapGenerator:
-- behavior: merge
-  files:
-  - resource.customizations=resource.customizations.yaml
+- name: argocd-cm
+  namespace: argocd
+  behavior: merge
+  # files:
+  # - resource.customizations
   literals:
   - |
     repository.credentials=- passwordSecret:
@@ -13,10 +16,24 @@ configMapGenerator:
         key: git_username
         name: autopilot-secret
   - application.resourceTrackingMethod=annotation
-  name: argocd-cm
-kind: Kustomization
-namespace: argocd
+  - |
+    resource.customizations=argoproj.io/Application:
+      health.lua: |
+        hs = {}
+        hs.status = "Progressing"
+        hs.message = ""
+        if obj.status ~= nil then
+          if obj.status.health ~= nil then
+            hs.status = obj.status.health.status
+            if obj.status.health.message ~= nil then
+              hs.message = obj.status.health.message
+            end
+          end
+        end
+        return hs
+
 resources:
-- github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.15
-patches:
-- expose-service.yaml
+- configmap.yaml
+# - github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.15
+# patches:
+# - expose-service.yaml
